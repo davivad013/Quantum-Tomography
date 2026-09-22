@@ -101,7 +101,7 @@ def desenhar_plano(ax, vetores, cores, rotulos, marcadores, chave, medido=False)
 # Função principal
 # ---------------------------------------------------------------
 def plotar_bloch(rhos, rotulos=None, cores=None, titulo="Esfera de Bloch–Poincaré",
-                 elev=20, azim=35, medidos=("x", "z"), salvar=None):
+                 elev=20, azim=35, medidos=("x", "y"), salvar=None):
     """
     rhos    : lista de matrizes densidade 2x2
     medidos : eixos dos observáveis realmente medidos (destaca o plano correspondente)
@@ -150,7 +150,7 @@ def plotar_bloch(rhos, rotulos=None, cores=None, titulo="Esfera de Bloch–Poinc
     if salvar:
         fig.savefig(salvar, dpi=200, bbox_inches="tight")
     plt.show()
-    return fig
+
 
 
 # ---------------------------------------------------------------
