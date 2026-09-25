@@ -1,0 +1,20 @@
+# Objetivos do Projeto de Tomografia Quântica
+
+## Força Bruta (Cholesky T†T / SciPy):
+1. [x] Sanity test: Reconstrução exata de estado puro simples (1 e mais qubits)
+2. [x] Problema da unicidade com falta de medidas (esfera de Bloch e projeções 2D)
+3. [x] Fidelidade x N_shots (estabilidade perante ruído de shot noise binomial)
+4. [x] Testar para múltiplos qubits (N = 1, 2, 3, 4, 5) com Jacobiano analítico
+5. [x] Gráficos de escalabilidade: Tempo x N_qubits e iterações
+6. [x] Resposta para estados puros gerais, combinações de puros e estados muito mistos
+7. [x] Estabilidade numérica e sensibilidade ao chute inicial
+
+## Programação Semidefinida (SDP com sdplab / spacecore / JAX e CVXPY):
+1. [x] Sanity test: Reconstrução via Regularização Entrópica, Quadrática e SCS linear
+2. [x] Problema da unicidade com falta de medidas (MaxEnt seleciona o centro r_z=0)
+3. [x] Fidelidade x N_shots: infactibilidade da viabilidade linear vs. robustez de mínimos quadrados convexos
+4. [x] Testar para múltiplos qubits: aceleração de ordens de grandeza via formulação dual L-BFGS JAX
+5. [x] Gráficos comparativos de Tempo x N_qubits e iterações
+6. [x] Análise espectral: estados puros, combinações de puros e estados muito mistos (interior vs. fronteira do cone PSD)
+7. [x] Introdução de Energia / Hamiltoniano físico (TFIM, Heisenberg, Zeeman): MaxEnt e inferência quântica com dados escassos
+8. [x] Estabilidade dos algoritmos: comportamento sob perturbações e dados subdeterminados
