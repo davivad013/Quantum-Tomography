@@ -49,19 +49,20 @@ def dual_gradient(u, H, Q_list, q, epsilon):
     return grad
 
 # Implementamos o método de Gradient Descent para encontrar o mínimo global da função de custo dual
-def gradient_descent(H, Q_list, q, epsilon, max_iters, lr, tol):
+def gradient_descent(H, Q_list, q, epsilon, max_iters, lr, tol, count_it = 0):
 
     u = np.zeros(len(q), dtype=float)  # Inicialização
     it = 0
     us = []
     grad_values = []
     for k in range(max_iters):
-        grad = dual_gradient(u, H, Q_list, q, epsilon)
-        grad_values.append([k, np.linalg.norm(grad)])
+        if count_it > 0 and k%count_it == 0:
+            grad = dual_gradient(u, H, Q_list, q, epsilon)
+            grad_values.append([k, np.linalg.norm(grad)])
 
         # Passo do Gradient Descent: u_{k+1} = u_k - lr * grad
         u_new = u - lr * grad
-        
+        it += 1
         if np.linalg.norm(grad) < tol:
             it = k
             break
@@ -71,9 +72,9 @@ def gradient_descent(H, Q_list, q, epsilon, max_iters, lr, tol):
     return [u, it, us, grad_values]
 
 # Reconstruímos a matriz densidade ótima a partir de u ótimo
-def reconstruct_pi(H, Q_list, q, epsilon, max_iters, lr=0.01, tol=1e-6):
+def reconstruct_pi(H, Q_list, q, epsilon, max_iters, lr=0.01, tol=1e-6, count_it = 0):
 
-    u_opt = gradient_descent(H, Q_list, q, epsilon, max_iters, lr, tol)
+    u_opt = gradient_descent(H, Q_list, q, epsilon, max_iters, lr, tol, count_it)
     operator_sum = sum(u_i * Q_i for u_i, Q_i in zip(u_opt[0], Q_list)) - H
 
     return [expm(operator_sum / epsilon), u_opt[0], u_opt[1], u_opt[2], u_opt[3]]
@@ -114,27 +115,30 @@ def sgd(H, Q_list, q, epsilon, k=None, lr=0.1, n_iter=10000, tol=1e-6,
     rng = np.random.default_rng(seed)
     u = np.zeros(len(q), dtype=float) if u0 is None else np.array(u0, dtype=float)
     m = len(u)
-    us = []
+    grad_data = []
 
     for t in range(1, n_iter + 1):
         grad, idx = stochastic_gradient(u, H, Q_list, q, epsilon, rng=rng, k=k)
         u -= lr * grad
-        us.append(u.copy())
+
+        real_grad = dual_gradient(u, H, Q_list, q, epsilon)
+        grad_data.append([t, np.linalg.norm(real_grad)])
+
 
         # critério de parada com o gradiente COMPLETO (k = m), só de vez em quando
         if t % check_every == 0:
             full_grad, _ = stochastic_gradient(u, H, Q_list, q, epsilon, rng=rng, k=m)
             if np.linalg.norm(full_grad) < tol:
 
-                return u, t, us
+                return u, t, grad_data
 
-    return u, n_iter, us
+    return u, n_iter, grad_data
 
 
 def reconstruct_spi(H, Q_list, q, epsilon, max_iters, lr=0.01, tol=1e-6, k=None, seed=0):
 
-    u_opt, n_it, us = sgd(H, Q_list, q, epsilon, k=k, lr=lr,
-                      n_iter=max_iters, tol=tol, seed=seed)
+    u_opt, n_it, grad_data = sgd(H, Q_list, q, epsilon, k=k, lr=lr,
+                              n_iter=max_iters, tol=tol, seed=seed)
     operator_sum = sum(u_i * Q_i for u_i, Q_i in zip(u_opt, Q_list)) - H
 
-    return [expm(operator_sum / epsilon), u_opt, n_it, us]
+    return [expm(operator_sum / epsilon), u_opt, n_it, grad_data]
