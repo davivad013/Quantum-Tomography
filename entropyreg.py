@@ -56,9 +56,9 @@ def gradient_descent(H, Q_list, q, epsilon, max_iters, lr, tol, count_it = 0):
     us = []
     grad_values = []
     for k in range(max_iters):
-        if count_it > 0 and k%count_it == 0:
-            grad = dual_gradient(u, H, Q_list, q, epsilon)
-            grad_values.append([k, np.linalg.norm(grad)])
+
+        grad = dual_gradient(u, H, Q_list, q, epsilon)
+        grad_values.append([k, np.linalg.norm(grad)])
 
         # Passo do Gradient Descent: u_{k+1} = u_k - lr * grad
         u_new = u - lr * grad
@@ -110,7 +110,7 @@ def stochastic_gradient(u, H, Q_list, q, epsilon, rng=None, k=None):
 
 
 def sgd(H, Q_list, q, epsilon, k=None, lr=0.1, n_iter=10000, tol=1e-6,
-        seed=0, u0=None, check_every=50):
+        seed=0, u0=None, check_every=50, count_it=0):
     
     rng = np.random.default_rng(seed)
     u = np.zeros(len(q), dtype=float) if u0 is None else np.array(u0, dtype=float)
@@ -118,11 +118,14 @@ def sgd(H, Q_list, q, epsilon, k=None, lr=0.1, n_iter=10000, tol=1e-6,
     grad_data = []
 
     for t in range(1, n_iter + 1):
+        
         grad, idx = stochastic_gradient(u, H, Q_list, q, epsilon, rng=rng, k=k)
         u -= lr * grad
 
-        real_grad = dual_gradient(u, H, Q_list, q, epsilon)
-        grad_data.append([t, np.linalg.norm(real_grad)])
+        if count_it > 0 and t%count_it == 0:
+            grad = dual_gradient(u, H, Q_list, q, epsilon)
+            grad_data.append([t, np.linalg.norm(grad)])
+        
 
 
         # critério de parada com o gradiente COMPLETO (k = m), só de vez em quando
@@ -135,10 +138,10 @@ def sgd(H, Q_list, q, epsilon, k=None, lr=0.1, n_iter=10000, tol=1e-6,
     return u, n_iter, grad_data
 
 
-def reconstruct_spi(H, Q_list, q, epsilon, max_iters, lr=0.01, tol=1e-6, k=None, seed=0):
+def reconstruct_spi(H, Q_list, q, epsilon, max_iters, lr=0.01, tol=1e-6, k=None, seed=0, count_it=0):
 
     u_opt, n_it, grad_data = sgd(H, Q_list, q, epsilon, k=k, lr=lr,
-                              n_iter=max_iters, tol=tol, seed=seed)
+                              n_iter=max_iters, tol=tol, seed=seed, count_it=count_it)
     operator_sum = sum(u_i * Q_i for u_i, Q_i in zip(u_opt, Q_list)) - H
 
     return [expm(operator_sum / epsilon), u_opt, n_it, grad_data]
