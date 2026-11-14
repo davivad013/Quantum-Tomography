@@ -1,0 +1,9 @@
+Gradient Descent
+iterações: 100000 | tempo (s): 16.7513
+norma final do gradiente: 1.4139716064896302e-05
+fidelidade: 0.9999900226908442
+
+Método estocástico
+iterações: 100000 | tempo (s): 15.8972
+norma final do gradiente: 3.024788892237474e-05
+fidelidade: 0.9999799623257319

@@ -1,0 +1,5 @@
+<QuantState (3 qubits, Misto (posto 4), pureza=0.336)>
+Número de observáveis: 64
+Traço do estado-alvo: 1.0
+Autovalores do estado-alvo: [-4.88560586e-17 -2.24320419e-17  3.35882833e-18  3.35699553e-17
+  9.90608868e-02  1.26475398e-01  3.13921218e-01  4.60542498e-01]

@@ -1,0 +1,7 @@
+lr=0.25, epsilon=1.25, k=32/64, count_it=25, max_iters=10000
+
+estado              pureza posto  iters   ||grad||   Tr(pi)  fidelidade
+Puro                1.0000     1  10000   9.72e-04   1.0008    0.999122
+Mistura de puros    0.3129     4  10000   7.38e-04   1.0004    0.999499
+Gibbs (beta=1)      0.4785     8  10000   1.70e-05   1.0000    1.000000
+Totalmente misto    0.1250     8    150   4.08e-09   1.0000    1.000000

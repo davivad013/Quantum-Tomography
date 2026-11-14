@@ -1,0 +1,14 @@
+Com o método de Gradient Ascent:
+Valores das médias com os observáveis I, Sigma_x, Sigma_y:
+(1.0000008181897577-4.1777418156342424e-17j) (0.7000002472614089-2.7755575615628914e-17j) (0.4000001412922337+0j)
+Número de iterações:  56
+Matriz reconstruída pi*:
+[[0.50000041+4.80325509e-18j 0.35000012-2.00000071e-01j]
+ [0.35000012+2.00000071e-01j 0.50000041-4.65806732e-17j]]
+Com o método de Stochastic Gradient Ascent:
+Valores das médias com os observáveis I, Sigma_x, Sigma_y:
+(1.0000000001282152-1.0194436133805656e-17j) (0.6999999783829212-5.551115123125783e-17j) (0.3999999874537122+5.551115123125783e-17j)
+iterações: 100
+Matriz reconstruída pi*:
+[[0.5       +2.53539514e-17j 0.34999999-1.99999994e-01j]
+ [0.34999999+1.99999994e-01j 0.5       -3.55483875e-17j]]

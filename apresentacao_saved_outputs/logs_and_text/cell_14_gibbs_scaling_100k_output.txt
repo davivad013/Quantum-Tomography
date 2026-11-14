@@ -1,0 +1,43 @@
+Gibbs beta=1.0 | lr=0.5 eps=1.0 | k = 2^n | check_every=500 count_it=500 max_iters=100000
+
+ n     4^n     k  Q evitada  iters   ||grad||  fidelidade  t_q(s)  t_sgd(s)
+ 3      64     8      64 KB  25500   9.42e-07    1.000000     0.0       4.1
+ 4     256    16       1 MB 100000   2.74e-05    1.000000     0.0     117.1
+ 5    1024    32      16 MB 100000   1.89e-04    0.999981     0.1     258.0
+ 6    4096    64     256 MB 100000   5.93e-04    0.999886     0.2     707.6
+ 7   16384   128       4 GB 100000   1.44e-03    0.999550     1.7    3400.7
+
+[Error: KeyboardInterrupt: ]
+[31m---------------------------------------------------------------------------[39m
+[31mKeyboardInterrupt[39m                         Traceback (most recent call last)
+[36mCell[39m[36m [39m[32mIn[12][39m[32m, line 136[39m
+[32m    132[39m     q = medidas_pauli(rho, n)
+[32m    133[39m     t_q = time.perf_counter() - t0
+[32m    134[39m 
+[32m    135[39m     t0 = time.perf_counter()
+[32m--> [39m[32m136[39m     u, n_it, hist, A = sgd_mem(H, q, n, epsilon, k, lr=lr, n_iter=max_iters, tol=tol,
+[32m    137[39m                                 seed=[32m0[39m, check_every=check_every, count_it=count_it)
+[32m    138[39m     t_sgd = time.perf_counter() - t0
+[32m    139[39m 
+
+[36mCell[39m[36m [39m[32mIn[12][39m[32m, line 55[39m, in [36msgd_mem[39m[34m(H, q, n, epsilon, k, lr, n_iter, tol, seed, check_every, count_it)[39m
+[32m     51[39m     A = u[[32m0[39m] * np.eye(d, dtype=complex) - H
+[32m     52[39m     grad_data = []
+[32m     53[39m 
+[32m     54[39m     [38;5;28;01mfor[39;00m t [38;5;28;01min[39;00m range([32m1[39m, n_iter + [32m1[39m):
+[32m---> [39m[32m55[39m         pi = expm(A / epsilon)
+[32m     56[39m         idx = rng.choice(m, size=k, replace=[38;5;28;01mFalse[39;00m)
+[32m     57[39m 
+[32m     58[39m         dA = np.zeros_like(A)
+
+[36mFile [39m[32m~/Desktop/Quantum-Tomography/.venv/lib/python3.13/site-packages/scipy/linalg/_matfuncs.py:310[39m, in [36mexpm[39m[34m(A)[39m
+[32m    304[39m     a = a.astype(np.float32)
+[32m    306[39m [38;5;66;03m# An explicit formula for 2x2 case exists (formula (2.2) in [1]_). However, without[39;00m
+[32m    307[39m [38;5;66;03m# Kahan's method, numerical instabilities can occur (See gh-19584). Hence removed[39;00m
+[32m    308[39m [38;5;66;03m# here until we have a more stable implementation.[39;00m
+[32m--> [39m[32m310[39m eA, info = [30;43mmatrix_exponential[39;49m[30;43m([39;49m[30;43ma[39;49m[30;43m)[39;49m
+[32m    311[39m [38;5;28;01mif[39;00m info != [32m0[39m:
+[32m    312[39m     [38;5;28;01mif[39;00m info <= -[32m11[39m:
+[32m    313[39m         [38;5;66;03m# We raise it from failed mallocs; negative LAPACK codes > -7[39;00m
+
+[31mKeyboardInterrupt[39m: 

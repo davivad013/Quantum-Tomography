@@ -1,0 +1,5 @@
+estado,pureza,posto,iters,norm_grad,Tr_pi,fidelidade
+Puro,1.0,1,10000,0.000972,1.0008,0.999122
+Mistura de puros,0.3129,4,10000,0.000738,1.0004,0.999499
+Gibbs (beta=1),0.4785,8,10000,1.7e-05,1.0,1.0
+Totalmente misto,0.125,8,150,4.08e-09,1.0,1.0
